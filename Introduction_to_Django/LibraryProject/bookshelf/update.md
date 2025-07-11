@@ -1,5 +1,5 @@
-book.title = "Advanced Django"
+book.title = "Nineteen Eighty-Four"
 book.save()
 
 // expected output
-Advanced Django
+Nineteen Eighty-Four
