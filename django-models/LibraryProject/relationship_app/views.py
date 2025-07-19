@@ -9,12 +9,12 @@ def book_view(request):
 
     context = {'book_list': books, 'author_list': authors}
 
-    return render(request, 'books/book_list.html', context)
+    return render(request, 'relationship_app/book_list.html', context)
 
 # class based view
 def LibraryDetailView(DetailView):
     model = Library
-    template_name = 'books/book_detail.html'
+    template_name = 'relationship_app/book_detail.html'
 
     def get_context_data(self, **kwargs):
         # get default context data
