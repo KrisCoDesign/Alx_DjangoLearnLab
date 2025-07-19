@@ -1,7 +1,7 @@
-from library.models import Author, Book, Library, Librarian
+from .models import Author, Book, Library, Librarian
 
-author_john = Book.objects.filter(field_name='john')
+books_author = Book.objects.get(Author)
 
-books = Library.objects.prefetch_related('books')
+books = Book.objects.all()
 
-Librarian = Librarian.objects.get()
+librarian = Library.objects.get(Librarian)
