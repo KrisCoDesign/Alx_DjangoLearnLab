@@ -4,6 +4,6 @@ from .views import list_books
 
 
 urlpatterns = [
-    path('relationship_app/', views.list_books, name='list_books'),
-    path('relationship_app/', views.LibraryDetailView.as_view(), name='library_detail')                          
+    path('templates/', views.list_books, name='list_books'),
+    path('templates/', views.LibraryDetailView.as_view(), name='library_detail')                          
 ]
