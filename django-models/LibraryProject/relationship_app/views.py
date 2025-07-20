@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from django.views.generic.detail import DetailView
+from django.views.generic import DetailView, CreateView
+from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
 from .models import Library, Book, Author
 
 # function based view
+
 def list_books(request):
     books = Book.objects.all()
     authors = Author.objects.all()
@@ -12,7 +15,8 @@ def list_books(request):
     return render(request, 'relationship_app/list_books.html', context)
 
 # class based view
-def LibraryDetailView(DetailView):
+
+class LibraryDetailView(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
 
@@ -23,3 +27,8 @@ def LibraryDetailView(DetailView):
         library = self.get_object()
         context['books'] = library.books.all()
         return context
+
+class RegisterationView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'relationship_app/register.html'
+    success_url = reverse_lazy('login')
