@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.views.generic import DetailView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
-from .models import Library, Book, Author
+from .models import Library, Book, Author, UserProfile
 from django.contrib.auth import login
+from django.contrib.auth.decorators import user_passes_test, login_required
 
 # function based view
 
@@ -30,6 +31,14 @@ class LibraryDetailView(DetailView):
         return context
 
 class register(CreateView):
-    form_class = UserCreationForm()
+    form_class = UserCreationForm
     template_name = 'relationship_app/register.html'
     success_url = reverse_lazy('login')
+
+
+def is_admin(user):
+    return hasattr(user, 'UserProfile') and user.UserProfile.role == 'Admin'
+
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')

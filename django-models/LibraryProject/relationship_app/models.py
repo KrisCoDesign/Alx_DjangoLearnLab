@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 # Create your models here.
 class Author(models.Model):
@@ -25,3 +29,20 @@ class Librarian(models.Model):
 
     def __str__(self):
         return self.name
+    
+class UserProfile(models.Model):
+    ROLE_CHOICE = [
+        ('Admin', 'Admin'),
+        ('Librarian', 'Librarian'), 
+        ('Member', 'Member'),
+    ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=100, choices=ROLE_CHOICE)
+    
+    def __str__(self):
+        return self.role
+
+@receiver(post_save, sender=User)
+def Create_UserProfile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
