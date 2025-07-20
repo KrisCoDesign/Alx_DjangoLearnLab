@@ -43,6 +43,6 @@ class UserProfile(models.Model):
         return self.role
 
 @receiver(post_save, sender=User)
-def Create_UserProfile(sender, instance, created, **kwargs):
+def create_userprofile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
