@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from .models import Library, Book, Author, UserProfile
 from django.contrib.auth import login
 from django.contrib.auth.decorators import permission_required, user_passes_test, login_required
+
 
 # function based view
 
@@ -56,14 +57,14 @@ def member_view(request):
     return render(request, 'relationship_app/member_view.html')
 
 @permission_required('relationship_app.can_add_book')
-def publish_book(request, book_id):
+def add_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     book.published = True
     book.save()
     return redirect('list_books', pk=book.id)
 
 @permission_required('relationship_app.can_change_book')
-def book_edit(request, pk):  
+def edit_book(request, pk):  
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         book.title = request.POST['title']
@@ -73,7 +74,7 @@ def book_edit(request, pk):
     return render(request, 'relationship_app/book_change.html', {'book': book})
 
 @permission_required('relationship_app.can_delete_book')
-def book_delete(request, pk):
+def delete_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         book.delete()
