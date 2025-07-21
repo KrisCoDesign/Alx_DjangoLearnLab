@@ -15,5 +15,9 @@ urlpatterns = [
     path('admin/', views.admin_view, name='admin'),
     path('librarian/', views.librarian_view, name='librarian'),
     path('member/', views.member_view, name='member'),
-    
+
+     # Permission-protected Book actions
+    path('book/<int:book_id>/publish/', views.publish_book, name='publish_book'),
+    path('book/<int:pk>/edit/', views.book_edit, name='book_edit'),
+    path('book/<int:pk>/delete/', views.book_delete, name='book_delete'),
 ]

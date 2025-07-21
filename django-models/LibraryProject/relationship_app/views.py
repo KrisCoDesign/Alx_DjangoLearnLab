@@ -49,7 +49,6 @@ def is_librarian(user):
 def librarian_view(request):
     return render(request, 'relationship_app/librarian_view.html')
 
-
 def is_member(user):
     return hasattr(user, 'UserProfile') and user.UserProfile.role == 'Member'
 @user_passes_test(is_member)
@@ -57,5 +56,27 @@ def member_view(request):
     return render(request, 'relationship_app/member_view.html')
 
 @permission_required('relationship_app.can_add_book')
-def can_add_book_view(request):
-    if 
+def publish_book(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    book.published = True
+    book.save()
+    return redirect('list_books', pk=book.id)
+
+@permission_required('relationship_app.can_change_book')
+def book_edit(request, pk):  
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.title = request.POST['title']
+        book.author_id = request.POST['author']
+        book.save()
+        return redirect('list_books', pk=book.id)
+    return render(request, 'relationship_app/book_change.html', {'book': book})
+
+@permission_required('relationship_app.can_delete_book')
+def book_delete(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('list_books')
+    return redirect(render,'relationship_app/list_books', {'book': book})
+
