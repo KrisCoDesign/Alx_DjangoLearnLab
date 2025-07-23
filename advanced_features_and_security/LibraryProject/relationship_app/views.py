@@ -7,7 +7,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import permission_required, user_passes_test, login_required
 
 
-
 # function based view
 
 def list_books(request):
