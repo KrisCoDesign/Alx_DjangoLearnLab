@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-from django.contrib.auth.models import Permission, Group
+# from django.contrib.auth.models import Permission, Group
 # from django.contrib.contenttypes.models import ContentType
 # from django.shortcuts import get_list_or_404
 
@@ -46,14 +46,6 @@ class CustomUser(AbstractUser):
             ('can_edit', 'Can edit'),
             ('can_delete', 'Can delete'),
         ]
-
-    #create a group
-    editors_group = Group.objects.create(name='Editors')
-
-    # Assign permissions to the group
-    edit_permission = Permission.objects.get(codename='can_edit')
-    editors_group.permissions.add(edit_permission)
-
 
 # Create your models here.
 class Book(models.Model):
