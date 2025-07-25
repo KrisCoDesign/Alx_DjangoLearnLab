@@ -5,6 +5,23 @@ from django.dispatch import receiver
 from django.conf import settings
 
 
+class UserProfile(models.Model):
+    ROLE_CHOICE = [
+        ('Admin', 'Admin'),
+        ('Librarian', 'Librarian'), 
+        ('Member', 'Member'),
+    ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    role = models.CharField(max_length=100, choices=ROLE_CHOICE)
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.role}"
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_userprofile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
 # Create your models here.
 class Author(models.Model):
     name = models.CharField(max_length=100)
@@ -39,19 +56,3 @@ class Librarian(models.Model):
     def __str__(self):
         return self.name
     
-class UserProfile(models.Model):
-    ROLE_CHOICE = [
-        ('Admin', 'Admin'),
-        ('Librarian', 'Librarian'), 
-        ('Member', 'Member'),
-    ]
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    role = models.CharField(max_length=100, choices=ROLE_CHOICE)
-    
-    def __str__(self):
-        return self.role
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_userprofile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
