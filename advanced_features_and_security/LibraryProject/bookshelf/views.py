@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
 
 
-@permission_required('bookshelf.can_view', raise_exception=True)
+@permission_required('book_list', raise_exception=True)
 def can_view(request):
     return HttpResponse("Book viewing")
 
