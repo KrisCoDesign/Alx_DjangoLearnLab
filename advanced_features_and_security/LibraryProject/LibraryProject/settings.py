@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-eqocx6k--j#vi*5^hnycm&i@a-ualkk3p(vz5&ce(q4r*8fjn#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -49,7 +49,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
+
+# CSP policy configuration
+# Allow scripts and styles from your own domain and trusted CDNs
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "https://trusted.cdn.com")
+CSP_STYLE_SRC = ("'self'", "https://trusted.cdn.com")
+CSP_IMG_SRC = ("'self'", "data:", "https://trusted.cdn.com")
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")
+CSP_CONNECT_SRC = ("'self'",)
+
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
@@ -124,3 +135,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'bookshelf.CustomUser'  # Use the existing one
+
+# Implementing Security Best Practices in Django 
+
+#  Enables the browser’s built-in XSS (Cross-Site Scripting) protection.
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevents your site from being embedded in <iframe> tags, mitigating clickjacking attacks.
+# "DENY": Never allow the site in an iframe.
+# "SAMEORIGIN": Allow only if the iframe is served from the same origin.
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+# Instructs browsers not to perform "MIME type sniffing," reducing exposure to drive-by downloads and XSS.
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# To ensure that your cookies are sent only over HTTPS connections in Django
+CSRF_COOKIE_SECURE = True   #Ensures the CSRF token cookie (csrftoken) is only sent via HTTPS.
+SESSION_COOKIE_SECURE = True  #Ensures the session ID cookie (sessionid) is only sent via HTTPS.
+
+
