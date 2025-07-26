@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create Book</h2>
+{% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+<form method="post">{% csrf_token %}
+    <label>Title: <input type="text" name="title"></label><br>
+    <label>Author: <input type="text" name="author"></label><br>
+    <label>Publication Year: <input type="number" name="publication_year"></label><br>
+    <button type="submit">Create</button>
+</form>
+<a href="{% url 'list_books' %}">Back to list</a>
+{% endblock %} 

@@ -8,5 +8,5 @@ class BookAdmin(admin.ModelAdmin):
 admin.site.register(Book, BookAdmin)
 
 class AuthorAdmin(admin.ModelAdmin):
-    display = ('name')
+    list_display = ('name',)
 admin.site.register(Author, AuthorAdmin)

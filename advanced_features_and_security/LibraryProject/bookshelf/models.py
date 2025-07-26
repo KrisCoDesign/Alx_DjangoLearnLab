@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-# from django.contrib.auth.models import Permission, Group
+
 # from django.contrib.contenttypes.models import ContentType
 # from django.shortcuts import get_list_or_404
 
@@ -38,18 +38,18 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
     
-    class Meta:
-
-        permissions = [
-            ('can_view', 'Can view'),
-            ('can_create', 'Can create'),
-            ('can_edit', 'Can edit'),
-            ('can_delete', 'Can delete'),
-        ]
 
 # Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
+
+    class Meta:
+        permissions = [
+            ('can_view', 'Can view'),
+            ('can_create', 'Can create'),
+            ('can_edit', 'Can edit'),
+            ('can_delete', 'Can delete'),
+        ]
 
