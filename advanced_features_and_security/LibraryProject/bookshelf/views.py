@@ -16,7 +16,7 @@ def book_can_create(request):
                 publication_year=publication_year
             )
             book.save()
-            return redirect('list_books')
+            return redirect('book_list')
         else:
             return render(request, 'bookshelf/book_create.html', {'error': 'All fields are required.'})
     return render(request, 'bookshelf/book_create.html')
@@ -33,7 +33,7 @@ def book_can_edit(request, pk):
             book.author = author  # This is correct for CharField
             book.publication_year = publication_year
             book.save()
-            return redirect('list_books')
+            return redirect('book_list')
         else:
             return render(request, 'bookshelf/book_edit.html', {'book': book, 'error': 'All fields are required.'})
     return render(request, 'bookshelf/book_edit.html', {'book': book})
@@ -43,13 +43,13 @@ def book_can_delete(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         book.delete()
-        return redirect('list_books')
+        return redirect('book_list')
     return render(request, 'bookshelf/book_delete.html', {'book': book})
 
 @permission_required('bookshelf.can_view', raise_exception=True)
 def book_can_view(request):
     books = Book.objects.all()
-    return render(request, 'bookshelf/list_books.html', {'books': books})
+    return render(request, 'bookshelf/book_list.html', {'books': books})
 
 
 
