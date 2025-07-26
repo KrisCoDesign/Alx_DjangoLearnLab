@@ -104,8 +104,7 @@ class CustomUserChangeForm(UserChangeForm):
     clean_profile_photo = CustomUserCreationForm.clean_profile_photo
 
 
-# class BookForm(forms.ModelForm):
-class ExampleForm(forms.ModelForm):
+class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['title', 'author', 'publication_year']
@@ -143,3 +142,6 @@ class ExampleForm(forms.ModelForm):
             )
             
         return year
+    
+def ExampleForm(self):
+    pass
