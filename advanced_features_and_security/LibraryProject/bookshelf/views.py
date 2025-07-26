@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book
+from .forms import ExampleForm
+
 from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 
 @permission_required('bookshelf.can_create', raise_exception=True)
 def book_can_create(request):
@@ -51,6 +53,25 @@ def book_can_view(request):
     books = Book.objects.all()
     return render(request, 'bookshelf/book_list.html', {'books': books})
 
+def form_example(request):
+    if request.method == 'POST':
+        details = ExampleForm(request.POST)
+        if details.is_valid():
+            book = details.save(commit=False)
+            book.save()
+            # redirect it to some another page indicating data
+            # was inserted successfully
+            return HttpResponse('Data submitted successfully')
+        
+        else:
+            # Redirect back to the same page if the data
+            # was invalid
+            return render(request, "bookshelf/form_example.html", {'form': details})
+    else:
+        # If the request is a GET request then,
+        # create an empty form object and render it into the page
+        form = ExampleForm(None)
+        return render(request, 'bookshelf/form_example.html', {'form': form})
 
 
 

@@ -1,17 +1,24 @@
-# forms.py
 from django import forms
+from django.forms import ModelForm
+from .models import Book
 
-# Other forms (CustomUserCreationForm, BookForm, etc.)
+class ExampleForm(ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'publication_year']
 
-class ExampleForm(forms.Form):
-    # Field definitions
-    name = forms.CharField(max_length=100)
-    
-    # Validation methods
-    def clean_name(self):
-        name = self.cleaned_data['name'].strip()
-        if not re.match(r"^[a-zA-Z\s\-']+$", name):
-            raise ValidationError("Invalid characters")
-        return name
-    
-    # ... other fields and methods ...
+    # function for validation
+    def clean(self):
+        super(ExampleForm, self).clean()
+        title = self.cleaned_data.get('title')
+        publication_year = self.cleaned_data.get('publication_year')
+
+        if title and len(title) < 5:
+            self.add_error('title', "Minimum of 5 characters required")
+
+        if publication_year and publication_year >= 2000:
+            self.add_error('publication_year', 'Publication year must be before the year 2000')
+
+        return self.cleaned_data
+
+        
