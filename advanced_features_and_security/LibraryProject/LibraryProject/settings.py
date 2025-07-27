@@ -144,7 +144,7 @@ SECURE_BROWSER_XSS_FILTER = True
 # Prevents your site from being embedded in <iframe> tags, mitigating clickjacking attacks.
 # "DENY": Never allow the site in an iframe.
 # "SAMEORIGIN": Allow only if the iframe is served from the same origin.
-X_FRAME_OPTIONS = "SAMEORIGIN"
+X_FRAME_OPTIONS = "DENY"
 
 # Instructs browsers not to perform "MIME type sniffing," reducing exposure to drive-by downloads and XSS.
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -153,4 +153,16 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_SECURE = True   #Ensures the CSRF token cookie (csrftoken) is only sent via HTTPS.
 SESSION_COOKIE_SECURE = True  #Ensures the session ID cookie (sessionid) is only sent via HTTPS.
 
+# force every HTTP (non-secure) request to be redirected automatically to HTTPS:
+SECURE_SSL_REDIRECT = True
 
+# This setting tells browsers to only communicate with your site using HTTPS for a given duration (in seconds). A value of 31536000 is one year:
+SECURE_HSTS_SECONDS = 31536000  # 1 year (recommended for production)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True # to Apply HSTS to all subdomains as well
+
+# Let browsers submit your site to global “HSTS preload lists,” so they'll refuse to ever connect via HTTP—even on the first visit:
+SECURE_HSTS_PRELOAD = True
+
+# To enforce secure cookie transmission in Django—meaning your cookies for sessions and CSRF will ONLY be sent over encrypted HTTPS connections
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
