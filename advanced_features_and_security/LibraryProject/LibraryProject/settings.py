@@ -166,3 +166,7 @@ SECURE_HSTS_PRELOAD = True
 # To enforce secure cookie transmission in Django—meaning your cookies for sessions and CSRF will ONLY be sent over encrypted HTTPS connections
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+# The HTTP_X_FORWARDED_PROTO header is an environment variable commonly used in web applications (like Django) running behind a proxy or a load balancer. 
+# Its main purpose is to signal to your backend application whether the original client request to the proxy was made using HTTP or HTTPS.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
