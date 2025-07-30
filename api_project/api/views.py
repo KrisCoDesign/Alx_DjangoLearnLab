@@ -7,8 +7,6 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class BookList(generics.ListAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [AllowAny]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
