@@ -8,11 +8,11 @@ from django.contrib.auth import get_user_model
 class BookTest(APITestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user('testuser', 'test@gmail.com', 'password')
-        self.client.force_authenticate(user=self.user)
+        self.client.login(username='testuser', password='password')
+        self.author = Author.objects.create(name='Test Author')
 
     def test_create_acount(self):
         url = reverse('book_create')
-        self.author = Author.objects.create(name='Test Author')
         data = {
             'title': 'Test Book ApiRequest', 
             'publication_year': 2022, 
