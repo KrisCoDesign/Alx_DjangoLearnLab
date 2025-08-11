@@ -16,6 +16,9 @@ class HomeView(TemplateView):
 class PostView(TemplateView):
     template_name = 'blog/posts.html'
 
+class ProfileView(TemplateView):
+    template_name = 'blog/profile.html'
+
 
 
 
