@@ -1,0 +1,47 @@
+<section id="comments">
+  <h2>Comments{% if comments %} ({{ comments|length }}){% endif %}</h2>
+
+  {% if comments %}
+    <ul class="comment-list">
+      {% for comment in comments %}
+        <li class="comment">
+          <div class="comment-meta">
+            <span class="author">{{ comment.author.username }}</span>
+            <span class="date">{{ comment.created_at|date:"F j, Y, g:i a" }}</span>
+          </div>
+          <div class="comment-body">
+            {{ comment.body|linebreaks }}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="no-comments">No comments yet. Be the first to comment!</p>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+    <form method="post" action="{% url 'comment_create' post.pk %}" class="comment-form">
+      {% csrf_token %}
+      {% if form and form.non_field_errors %}
+        <div class="error-message">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="form-group">
+        {% if form and form.body %}
+          <label for="{{ form.body.id_for_label }}">Add a comment</label>
+          {{ form.body }}
+          {% if form.body.errors %}
+            <div class="error-message">{{ form.body.errors }}</div>
+          {% endif %}
+        {% else %}
+          <label for="id_body">Add a comment</label>
+          <textarea name="body" id="id_body" rows="5" class="form-control" placeholder="Write your comment..."></textarea>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to post a comment.</p>
+  {% endif %}
+</section>
