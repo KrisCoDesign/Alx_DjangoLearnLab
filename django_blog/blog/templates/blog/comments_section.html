@@ -10,7 +10,7 @@
             <span class="date">{{ comment.created_at|date:"F j, Y, g:i a" }}</span>
           </div>
           <div class="comment-body">
-            {{ comment.body|linebreaks }}
+            {{ comment.content|linebreaks }}
           </div>
         </li>
       {% endfor %}
@@ -22,20 +22,20 @@
   {% if user.is_authenticated %}
     <form method="post" action="{% url 'comment_create' post.pk %}" class="comment-form">
       {% csrf_token %}
-      {% if form and form.non_field_errors %}
-        <div class="error-message">{{ form.non_field_errors }}</div>
+      {% if comment_form and comment_form.non_field_errors %}
+        <div class="error-message">{{ comment_form.non_field_errors }}</div>
       {% endif %}
 
       <div class="form-group">
-        {% if form and form.body %}
-          <label for="{{ form.body.id_for_label }}">Add a comment</label>
-          {{ form.body }}
-          {% if form.body.errors %}
-            <div class="error-message">{{ form.body.errors }}</div>
+        {% if comment_form and comment_form.content %}
+          <label for="{{ comment_form.content.id_for_label }}">Add a comment</label>
+          {{ comment_form.content }}
+          {% if comment_form.content.errors %}
+            <div class="error-message">{{ comment_form.content.errors }}</div>
           {% endif %}
         {% else %}
-          <label for="id_body">Add a comment</label>
-          <textarea name="body" id="id_body" rows="5" class="form-control" placeholder="Write your comment..."></textarea>
+          <label for="id_content">Add a comment</label>
+          <textarea name="content" id="id_content" rows="3" class="form-control" placeholder="Write your comment..."></textarea>
         {% endif %}
       </div>
 

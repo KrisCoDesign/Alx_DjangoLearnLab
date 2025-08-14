@@ -1,7 +1,8 @@
 from django.urls import path
 from blog.views import (
     RegisterView, HomeView, PostView, CustomLoginView, CustomLogoutView, 
-    profile, PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+    profile, PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView,
+    CommentCreateView, CommentUpdateView, CommentDeleteView
 )
 
 urlpatterns = [
@@ -20,4 +21,9 @@ urlpatterns = [
     
     # Legacy URL for backward compatibility
     path('post/', PostView.as_view(), name='posts'),
+
+    # comment section
+    path('post/<int:pk>/comment/', CommentCreateView.as_view(), name='comment_create'),
+    path('post/<int:pk>/comment/', CommentUpdateView.as_view(), name='comment_update'),
+    path('post/<int:pk>/comment/', CommentDeleteView.as_view(), name='comment_delete'),
 ]
