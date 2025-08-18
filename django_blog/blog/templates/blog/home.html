@@ -10,4 +10,8 @@ Hi {{ user.username }}!
 <p>You are not logged in</p>
 <a href="{% url 'login' %}">Log In</a>
 {% endif %}
+    <form action="{% url 'search_results' %}" method="get">
+    <input type="text" name="q" placeholder="Search posts...">
+  <button type="submit">Search</button>
+</form>
 {% endblock %}

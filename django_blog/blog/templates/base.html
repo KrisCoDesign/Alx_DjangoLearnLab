@@ -27,7 +27,15 @@
 
     <div class="content">
       {% block content %}
-      <!-- Page-specific content goes here -->
+      <h2>Search Results</h2>
+
+    {% if post_list %}
+      {% for post in post_list %}
+        {# Same post display as your post_list.html #}
+      {% endfor %}
+    {% else %}
+      <p>No results found.</p>
+    {% endif %}
       {% endblock %}
     </div>
 

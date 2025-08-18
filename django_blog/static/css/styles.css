@@ -118,6 +118,17 @@ footer {
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 2px solid #eee;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.posts-header h1 {
+    margin: 0;
+}
+
+.search-info {
+    color: #666;
+    font-style: italic;
 }
 
 .post-list {
@@ -164,6 +175,37 @@ footer {
 .post-actions {
     border-top: 1px solid #eee;
     padding-top: 15px;
+}
+
+/* Tag styles */
+.post-tags {
+    margin: 15px 0;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+}
+
+.tags-label {
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+}
+
+.tag-link {
+    display: inline-block;
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 4px 8px;
+    margin: 2px 4px 2px 0;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.tag-link:hover {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
 }
 
 /* Post detail styles */
@@ -318,6 +360,14 @@ footer {
 .comment-form .form-control:focus {
     outline: none;
     border-color: #007bff;
+}
+
+/* Search results styles */
+.search-actions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+    text-align: center;
 }
 
 /* Form styles */
@@ -497,5 +547,9 @@ footer {
     
     .inline-edit-form .form-actions {
         flex-direction: column;
+    }
+    
+    .tag-link {
+        margin: 2px;
     }
 }

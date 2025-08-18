@@ -1,26 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Blog Posts{% endblock %}
+{% block title %}Search Results{% endblock %}
 
 {% block content %}
 <div class="posts-container">
     <div class="posts-header">
-        <h1>{% if title %}{{ title }}{% else %}Blog Posts{% endif %}</h1>
+        <h1>{{ title }}</h1>
+        <div class="search-info">
+            <p>Found {{ post_list|length }} result{{ post_list|length|pluralize }} for "{{ query }}"</p>
+        </div>
         {% if user.is_authenticated %}
             <a href="{% url 'post_create' %}" class="btn btn-primary">Create New Post</a>
         {% endif %}
     </div>
-
-    <!-- <div>
-        <h1>Search Results</h1>
-        <ul>
-        {% for item in object_list %}
-        <li>
-        {{ item.title }}, {{ item.content }}, {{ item.tags }}
-        </li>
-        {% endfor %}
-        </ul>
-    </div> -->
 
     {% if post_list %}
         <div class="post-list">
@@ -61,7 +53,7 @@
         {% if is_paginated %}
             <div class="pagination">
                 {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">&laquo; Previous</a>
+                    <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}" class="btn btn-secondary">&laquo; Previous</a>
                 {% endif %}
                 
                 <span class="current-page">
@@ -69,17 +61,20 @@
                 </span>
                 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Next &raquo;</a>
+                    <a href="?q={{ query }}&page={{ page_obj.next_page_number }}" class="btn btn-secondary">Next &raquo;</a>
                 {% endif %}
             </div>
         {% endif %}
     {% else %}
         <div class="no-posts">
-            <p>No blog posts available yet.</p>
-            {% if user.is_authenticated %}
-                <a href="{% url 'post_create' %}" class="btn btn-primary">Create the first post!</a>
-            {% endif %}
+            <p>No posts found matching "{{ query }}".</p>
+            <p>Try different keywords or <a href="{% url 'post_list' %}">browse all posts</a>.</p>
         </div>
     {% endif %}
+    
+    <div class="search-actions">
+        <a href="{% url 'post_list' %}" class="btn btn-secondary">Back to All Posts</a>
+        <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+    </div>
 </div>
 {% endblock %}

@@ -9,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView
 from .forms import ProfileForm, UserRegister, PostForm, CommentForm
 from .models import get_or_create_profile, Post, Comment
+from taggit.models import Tag
+from django.db.models import Q
 
 
 class RegisterView(CreateView):
@@ -160,3 +162,26 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context['comments'] = Comment.objects.filter(post=self.object.post).order_by('-created_at')
         context['comment_form'] = CommentForm()
         return context
+    
+class TaggedPostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(tags_slug=self.kwargs.get('slug'))
+
+class SearchResultsView(ListView):
+    model = Post
+    template_name = 'blog/search_results.html'
+    context_object_name = 'post_list'
+    paginate_by = 10
+        
+    def get_queryset(self):
+        query = self.request.GET.get('q') 
+        object_list = Post.objects.filter(
+            Q(title__icontains=query) | 
+            Q(content__icontains=query) | 
+            Q(tags__name__icontains=query)
+            )
+        return object_list.distinct()
+    
