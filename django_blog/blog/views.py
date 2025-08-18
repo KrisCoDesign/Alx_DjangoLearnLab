@@ -163,12 +163,17 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context['comment_form'] = CommentForm()
         return context
     
-class TaggedPostListView(ListView):
+class PostByTagListView(ListView):
     model = Post
     template_name = 'blog/post_list.html'
-
     def get_queryset(self):
         return Post.objects.filter(tags_slug=self.kwargs.get('slug'))
+    
+# class TaggedPostListView(ListView):
+#     model = Post
+#     # template_name = 'blog/post_list.html'
+#     def get_queryset(self):
+#         return Post.objects.filter(tags_slug=self.kwargs.get('slug'))
 
 class SearchResultsView(ListView):
     model = Post
