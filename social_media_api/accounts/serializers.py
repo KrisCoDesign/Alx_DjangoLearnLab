@@ -1,12 +1,13 @@
 from rest_framework import serializers
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 from .models import CustomUser
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from rest_framework.authtoken.models import Token
 
+User = get_user_model()
 
-# User = get_user_model()
 
 class UserRegSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(
@@ -29,6 +30,7 @@ class UserRegSerializer(serializers.ModelSerializer):
             email = validated_data['email'],
             password = validated_data['password']
         )
+        Token.objects.create(user=user)
         return user
 
 class UserLoginSerializer(serializers.Serializer):
@@ -64,3 +66,5 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'bio', 'profile_picture']  
+
+        
