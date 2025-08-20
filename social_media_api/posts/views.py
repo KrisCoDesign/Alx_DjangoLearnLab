@@ -1,13 +1,27 @@
 from django.shortcuts import render
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
 from .serializers import PostSerializer, CommentSerializer
-# from rest_framework.decorators import permission_classes
+from .models import Post, Comment
 
-class PostCreateView(generics.CreateAPIView):
-    # queryset = Post.objects.all()
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class CommentCreateView(generics.CreateAPIView):
-    Serializer_class = CommentSerializer
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    # def get_queryset(self):
+    #     return Post.objects.filter(author=self.request.user)
+    
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    # def get_queryset(self):
+    #     return Comment.objects.filter(author=self.request.user)
