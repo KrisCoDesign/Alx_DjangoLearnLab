@@ -32,9 +32,7 @@ def user_feed(request):
     following_users = user.following.all()
     
     # Get posts from followed users, ordered by creation date (newest first)
-    feed_posts = Post.objects.filter(
-        author__in=following_users
-    ).order_by('-created_at')
+    feed_posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
     
     # Serialize the posts
     serializer = PostSerializer(feed_posts, many=True, context={'request': request})
