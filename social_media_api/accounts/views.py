@@ -8,6 +8,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import login
 from django.shortcuts import get_object_or_404
+from django.contrib.contenttypes.models import ContentType
+from notifications.models import Notification
 
 from .serializers import (
     UserRegSerializer, 
@@ -102,6 +104,16 @@ def follow_user(request):
                 )   
         # follow the user
         request.user.follow(user_to_follow)
+        
+        # Create notification for the user being followed
+        Notification.objects.create(
+            recipient=user_to_follow,
+            actor=request.user,
+            verb="started following you",
+            notification_type='follow',
+            content_type=ContentType.objects.get_for_model(CustomUser),
+            object_id=request.user.id
+        )
         
         return Response({
                 "detail": f"You are now following {user_to_follow.username}",
