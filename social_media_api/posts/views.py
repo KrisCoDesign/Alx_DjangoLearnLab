@@ -59,9 +59,10 @@ def user_feed(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
-def like_post(request, post_id):
+def like_post(request, pk):
     """Like a post"""
-    post = get_object_or_404(Post, id=post_id)
+    post = get_object_or_404(Post, pk=pk)
+
     user = request.user
     
     # Check if user already liked the post
@@ -92,9 +93,9 @@ def like_post(request, post_id):
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
-def unlike_post(request, post_id):
+def unlike_post(request, pk):
     """Unlike a post"""
-    post = get_object_or_404(Post, id=post_id)
+    post = get_object_or_404(Post, id=pk)
     user = request.user
     
     # Check if user has liked the post
