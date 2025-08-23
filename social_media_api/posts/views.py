@@ -61,7 +61,7 @@ def user_feed(request):
 @permission_classes([permissions.IsAuthenticated])
 def like_post(request, pk):
     """Like a post"""
-    post = get_object_or_404(Post, pk=pk)
+    post = generics.get_object_or_404(Post, pk=pk)
 
     user = request.user
     
