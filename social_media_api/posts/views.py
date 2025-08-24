@@ -8,7 +8,6 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from notifications.models import Notification
-from django import generics
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -63,7 +62,7 @@ def user_feed(request):
 @permission_classes([permissions.IsAuthenticated])
 def like_post(request, pk):
     """Like a post"""
-    post = generics.get_object_or_404(Post, pk=pk)
+    post = get_object_or_404(Post, id=pk)
 
     user = request.user
     
@@ -75,8 +74,8 @@ def like_post(request, pk):
         )
     
     # Create the like
-    like = Like.objects.get_or_create(user=request.user, post=post)
-
+    like = Like.objects.create(post=post, user=user)
+    
     # Create notification for post author (if not liking own post)
     if post.author != user:
         Notification.objects.create(
